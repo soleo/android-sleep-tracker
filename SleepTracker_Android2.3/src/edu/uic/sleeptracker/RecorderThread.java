@@ -1,4 +1,5 @@
 package edu.uic.sleeptracker;
+
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -58,7 +59,7 @@ public class RecorderThread extends Thread {
         }
         averageAbsValue = totalAbsValue / frameByteSize / 2;
 
-        System.out.println(averageAbsValue);
+        //System.out.println(averageAbsValue);
         
         // no input
         if (averageAbsValue < 30){

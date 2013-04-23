@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".AlarmManagerActivity" >
+
+    <EditText
+        android:id="@+id/txtSeconds"
+        android:layout_width="50dip"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnStopAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtSeconds"
+        android:layout_below="@+id/txtSeconds"
+        android:layout_marginTop="20dp"
+        android:text="Stop the Repeating Alarm" />
+
+    <Button
+        android:id="@+id/btnSetAlarm2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtSeconds"
+        android:layout_below="@+id/btnStopAlarm"
+        android:text="Set Repeating Alarm" />
+
+    <Button
+        android:id="@+id/btnSetAlarm1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtSeconds"
+        android:layout_below="@+id/btnSetAlarm2"
+        android:text="Set One Shot Alarm" />
+
+    <Button
+        android:id="@+id/btnSelectAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnSetAlarm1"
+        android:layout_below="@+id/btnSetAlarm1"
+        android:text="Select Alarm" />
+
+    <Button
+        android:id="@+id/btnRecordAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnSelectAlarm"
+        android:layout_below="@+id/btnSelectAlarm"
+        android:text="Record Alarm" />
+
+</RelativeLayout>

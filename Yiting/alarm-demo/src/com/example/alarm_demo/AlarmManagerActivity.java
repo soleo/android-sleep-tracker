@@ -1,6 +1,7 @@
 package com.example.alarm_demo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -18,6 +19,7 @@ public class AlarmManagerActivity extends Activity {
 	private Button mStartBtn1, mStartBtn2, mStopBtn, mAlarmBtn, mRecordBtn;
 	private EditText mTxtSeconds;
 	private Toast mToast;
+	private Handler rhandler = new Handler();
 
 	private static double voice = 1000;// input
 
@@ -36,91 +38,19 @@ public class AlarmManagerActivity extends Activity {
 
 		mStartBtn1.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-
-				try {
-					int i = Integer.parseInt(mTxtSeconds.getText().toString());
-					Intent intent = new Intent(AlarmManagerActivity.this,
-							AlarmReceiverActivity.class);
-					PendingIntent pendingIntent = PendingIntent.getActivity(
-							AlarmManagerActivity.this, 2, intent,
-							PendingIntent.FLAG_CANCEL_CURRENT);
-					AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-					am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-							+ (i * 1000), pendingIntent);
-
-					if (mToast != null) {
-						mToast.cancel();
-					}
-					mToast = Toast.makeText(getApplicationContext(),
-							"Alarm for activity is set in:" + i + " seconds",
-							Toast.LENGTH_LONG);
-					mToast.show();
-				} catch (NumberFormatException e) {
-					if (mToast != null) {
-						mToast.cancel();
-					}
-					mToast = Toast.makeText(AlarmManagerActivity.this,
-							"Please enter a number an try again",
-							Toast.LENGTH_LONG);
-					mToast.show();
-					Log.i("AlarmManagerActivity", "Number Format Exception");
-				}
+				startOneShoot();
 			}
 		});
 
 		mStartBtn2.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				try {
-					int i = Integer.parseInt(mTxtSeconds.getText().toString());
-					Intent intent = new Intent(AlarmManagerActivity.this,
-							AlarmReceiverActivity.class);
-					PendingIntent pendingIntent = PendingIntent.getActivity(
-							AlarmManagerActivity.this, 3, intent,
-							PendingIntent.FLAG_CANCEL_CURRENT);
-					AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-					am.setRepeating(AlarmManager.RTC_WAKEUP,
-							System.currentTimeMillis() + (i * 1000), 15 * 1000,
-							pendingIntent);
-					if (mToast != null) {
-						mToast.cancel();
-					}
-					mToast = Toast
-							.makeText(
-									getApplicationContext(),
-									"Repeating alarm for activity is set in:"
-											+ i
-											+ " seconds,"
-											+ " and repeat every 15 seconds after that",
-									Toast.LENGTH_LONG);
-					mToast.show();
-				} catch (NumberFormatException e) {
-					if (mToast != null) {
-						mToast.cancel();
-					}
-					mToast = Toast.makeText(AlarmManagerActivity.this,
-							"Please enter a number an try again",
-							Toast.LENGTH_LONG);
-					mToast.show();
-					Log.i("AlarmManagerActivity", "Number Format Exception");
-				}
+				startRepeating();
 			}
 		});
 
 		mStopBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				Intent intent = new Intent(AlarmManagerActivity.this,
-						AlarmReceiverActivity.class);
-				PendingIntent pendingIntent = PendingIntent.getActivity(
-						AlarmManagerActivity.this, 3, intent, 0);
-				AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-				am.cancel(pendingIntent);
-				if (mToast != null) {
-					mToast.cancel();
-				}
-				mToast = Toast.makeText(getApplicationContext(),
-						"Repeating alarm has been cancelled!",
-						Toast.LENGTH_LONG);
-				mToast.show();
+				stopRepeating();
 			}
 		});
 
@@ -134,11 +64,93 @@ public class AlarmManagerActivity extends Activity {
 
 		mRecordBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				Intent intent = new Intent(AlarmManagerActivity.this,
-						AlarmRecordActivity.class);
-				startActivity(intent);
+				rhandler.removeCallbacks(recordActivity);
+				rhandler.postDelayed(recordActivity, 1000);
 			}
 		});
-
 	}
+
+	private void startOneShoot() {
+		try {
+			int i = Integer.parseInt(mTxtSeconds.getText().toString());
+			Intent intent = new Intent(AlarmManagerActivity.this,
+					AlarmReceiverActivity.class);
+			PendingIntent pendingIntent = PendingIntent.getActivity(
+					AlarmManagerActivity.this, 2, intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+			am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+					+ (i * 1000), pendingIntent);
+
+			if (mToast != null) {
+				mToast.cancel();
+			}
+			mToast = Toast.makeText(getApplicationContext(),
+					"Alarm for activity is set in:" + i + " seconds",
+					Toast.LENGTH_LONG);
+			mToast.show();
+		} catch (NumberFormatException e) {
+			if (mToast != null) {
+				mToast.cancel();
+			}
+			mToast = Toast.makeText(AlarmManagerActivity.this,
+					"Please enter a number an try again", Toast.LENGTH_LONG);
+			mToast.show();
+			Log.i("AlarmManagerActivity", "Number Format Exception");
+		}
+	}
+
+	private void startRepeating() {
+		try {
+			int i = Integer.parseInt(mTxtSeconds.getText().toString());
+			Intent intent = new Intent(AlarmManagerActivity.this,
+					AlarmReceiverActivity.class);
+			PendingIntent pendingIntent = PendingIntent.getActivity(
+					AlarmManagerActivity.this, 3, intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+			am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+					+ (i * 1000), 15 * 1000, pendingIntent);
+			if (mToast != null) {
+				mToast.cancel();
+			}
+			mToast = Toast.makeText(getApplicationContext(),
+					"Repeating alarm for activity is set in:" + i + " seconds,"
+							+ " and repeat every 15 seconds after that",
+					Toast.LENGTH_LONG);
+			mToast.show();
+		} catch (NumberFormatException e) {
+			if (mToast != null) {
+				mToast.cancel();
+			}
+			mToast = Toast.makeText(AlarmManagerActivity.this,
+					"Please enter a number an try again", Toast.LENGTH_LONG);
+			mToast.show();
+			Log.i("AlarmManagerActivity", "Number Format Exception");
+		}
+	}
+
+	private void stopRepeating() {
+		Intent intent = new Intent(AlarmManagerActivity.this,
+				AlarmReceiverActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				AlarmManagerActivity.this, 3, intent, 0);
+		AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+		am.cancel(pendingIntent);
+		if (mToast != null) {
+			mToast.cancel();
+		}
+		mToast = Toast.makeText(getApplicationContext(),
+				"Repeating alarm has been cancelled!", Toast.LENGTH_LONG);
+		mToast.show();
+	}
+
+	private Runnable recordActivity = new Runnable() {
+		public void run() {
+			Intent intent = new Intent(AlarmManagerActivity.this,
+					AlarmRecordActivity.class);
+			startActivity(intent);
+		}
+	};
+
 }

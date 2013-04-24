@@ -7,13 +7,15 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 
 public class AlarmSelectActivity extends Activity {
 
 	private static final int RingtongButton = 0;
 	private static final int AlarmButton = 1;
 	private static final int NotificationButton = 2;
-	private String strAlarmFolder = "/system/media/audio/ui";
+	File SDCardpath = Environment.getExternalStorageDirectory();
+	private String strAlarmFolder = SDCardpath.getAbsolutePath() + "/media";
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class AlarmSelectActivity extends Activity {
 					"Select Alarm");
 			startActivityForResult(intent, AlarmButton);
 		}
-		//AlarmSelectActivity.this.finish();// ?
+		// AlarmSelectActivity.this.finish();// ?
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

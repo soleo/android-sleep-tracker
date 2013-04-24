@@ -1,6 +1,7 @@
 package com.example.alarm_demo;
 
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,11 +19,14 @@ public class AlarmManagerActivity extends Activity {
 	private EditText mTxtSeconds;
 	private Toast mToast;
 
+	private static double voice = 1000;// input
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		AlarmStaticVariables.level = AlarmStaticVariables.level1;
+		AlarmStaticVariables.partten = AlarmStaticVariables.pattern1;
 		mStartBtn1 = (Button) findViewById(R.id.btnSetAlarm1);
 		mStartBtn2 = (Button) findViewById(R.id.btnSetAlarm2);
 		mStopBtn = (Button) findViewById(R.id.btnStopAlarm);
@@ -32,6 +36,7 @@ public class AlarmManagerActivity extends Activity {
 
 		mStartBtn1.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
+
 				try {
 					int i = Integer.parseInt(mTxtSeconds.getText().toString());
 					Intent intent = new Intent(AlarmManagerActivity.this,
@@ -68,7 +73,7 @@ public class AlarmManagerActivity extends Activity {
 				try {
 					int i = Integer.parseInt(mTxtSeconds.getText().toString());
 					Intent intent = new Intent(AlarmManagerActivity.this,
-							RepeatingAlarmReceiverActivity.class);
+							AlarmReceiverActivity.class);
 					PendingIntent pendingIntent = PendingIntent.getActivity(
 							AlarmManagerActivity.this, 3, intent,
 							PendingIntent.FLAG_CANCEL_CURRENT);
@@ -104,7 +109,7 @@ public class AlarmManagerActivity extends Activity {
 		mStopBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				Intent intent = new Intent(AlarmManagerActivity.this,
-						RepeatingAlarmReceiverActivity.class);
+						AlarmReceiverActivity.class);
 				PendingIntent pendingIntent = PendingIntent.getActivity(
 						AlarmManagerActivity.this, 3, intent, 0);
 				AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -130,9 +135,10 @@ public class AlarmManagerActivity extends Activity {
 		mRecordBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				Intent intent = new Intent(AlarmManagerActivity.this,
-						AlarmReceiverActivity.class);
+						AlarmRecordActivity.class);
 				startActivity(intent);
 			}
 		});
+
 	}
 }

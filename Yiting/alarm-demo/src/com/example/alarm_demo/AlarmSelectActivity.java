@@ -18,15 +18,14 @@ public class AlarmSelectActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (isFolder(strAlarmFolder)) {
-			Intent intent = new Intent(
-					RingtoneManager.ACTION_RINGTONE_PICKER);
+			Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
 			intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
 					RingtoneManager.TYPE_ALARM);
 			intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
 					"Select Alarm");
 			startActivityForResult(intent, AlarmButton);
 		}
-		finish();
+		//AlarmSelectActivity.this.finish();// ?
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -76,7 +75,7 @@ public class AlarmSelectActivity extends Activity {
 			break;
 		}
 	}
-	
+
 	private boolean isFolder(String strFolder) {
 		boolean tmp = false;
 		File f1 = new File(strFolder);

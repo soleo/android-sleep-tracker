@@ -9,7 +9,9 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +20,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class AlarmReceiverActivity extends Activity {
+
 	private MediaPlayer mMediaPlayer;
 	private PowerManager.WakeLock mWakeLock;
+	private Long startTime;
+	private Handler handler = new Handler();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,63 +39,70 @@ public class AlarmReceiverActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN
 						| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-		setContentView(R.layout.alarm);
-
-		Button stopAlarm = (Button) findViewById(R.id.btnStopAlarm);
-		stopAlarm.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				mMediaPlayer.stop();
-				finish();
-			}
-		});
-		playSound(this,getAlarmUri());
+		// setContentView(R.layout.alarm);
+		//
+		// Button stopAlarm = (Button) findViewById(R.id.btnStopAlarm);
+		// stopAlarm.setOnClickListener(new OnClickListener() {
+		// public void onClick(View arg0) {
+		// mMediaPlayer.stop();
+		// AlarmReceiverActivity.this.finish();
+		// }
+		// });
+		startTime = System.currentTimeMillis();
+		if (AlarmStaticVariables.level == 0) {
+			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			vibrator.vibrate(AlarmStaticVariables.partten, -1);
+			AlarmReceiverActivity.this.finish();
+		} else {
+			playSound(this, getAlarmUri());
+			handler.removeCallbacks(updateTimer);
+			handler.postDelayed(updateTimer, 1000);
+		}
 	}
 
-	private void playSound(Context context,Uri alert){
+	private Runnable updateTimer = new Runnable() {
+		public void run() {
+			long currentTime;
+			while (true) {
+				currentTime = System.currentTimeMillis();
+				if (currentTime - startTime > AlarmStaticVariables.level)
+					break;
+			}
+			mMediaPlayer.stop();
+			AlarmReceiverActivity.this.finish();
+		}
+	};
+
+	private void playSound(Context context, Uri alert) {
 		mMediaPlayer = new MediaPlayer();
-		try{
-			mMediaPlayer.setDataSource(context,alert);
-			final AudioManager audioManager = 
-					(AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-			if(audioManager.getStreamVolume(AudioManager.STREAM_ALARM)!=0){
+		try {
+			mMediaPlayer.setDataSource(context, alert);
+			final AudioManager audioManager = (AudioManager) context
+					.getSystemService(Context.AUDIO_SERVICE);
+			if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
 				mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 				mMediaPlayer.prepare();
 				mMediaPlayer.start();
 			}
-		}catch(IOException e){
+		} catch (IOException e) {
 			Log.i("AlarmReceiver", "No audio files are found!");
 		}
 	}
-	
-	private Uri getAlarmUri(){
-		Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);//alarm first
-		if(alert==null){
-			alert=RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-			if(alert==null){
+
+	private Uri getAlarmUri() {
+		Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);// alarm_first
+		if (alert == null) {
+			alert = RingtoneManager
+					.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			if (alert == null) {
 				RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 			}
 		}
 		return alert;
 	}
-	
+
 	protected void onStop() {
 		super.onStop();
 		mWakeLock.release();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

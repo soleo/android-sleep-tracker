@@ -1,11 +1,15 @@
 package edu.uic.sleeptracker;
 
+import com.musicg.wave.WaveHeader;
+
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 
 public class DetectorThread extends Thread {
 
 	private RecorderThread recorder;
+	private SnoringApi snoringApi;
+	private WaveHeader waveHeader;
 	private volatile Thread _thread;
 	
 	public DetectorThread(RecorderThread recorder) {
@@ -28,6 +32,11 @@ public class DetectorThread extends Thread {
 		}
 		
 		// TODO: added detection init
+		waveHeader = new WaveHeader();
+		waveHeader.setChannels(channel);
+		waveHeader.setBitsPerSample(bitsPerSample);
+		waveHeader.setSampleRate(audioRecord.getSampleRate());
+		snoringApi = new SnoringApi(waveHeader);
 	}
 
 	public void stopDetection() {
@@ -61,9 +70,12 @@ public class DetectorThread extends Thread {
 				if (buffer != null) {
 					// sound detected
 					MainActivity.snoreValue = 0;
-
+					
 					// snore detection
-						
+					boolean isSnoring = snoringApi.isSnoring(buffer);
+					if(isSnoring){
+						// setting alarm
+					}
 					// end snore detection
 				}
 				else{

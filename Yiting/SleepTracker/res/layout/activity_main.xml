@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/btnSleepRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="185dp"
+        android:text="Click to start listening to snoring" />
+
+    <Button
+        android:id="@+id/btnSelectAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnRecordAlarm"
+        android:layout_alignRight="@+id/btnRecordAlarm"
+        android:layout_below="@+id/btnRecordAlarm"
+        android:text="Select Alarm" />
+
+    <Button
+        android:id="@+id/btnAlarmTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnSleepRecord"
+        android:layout_alignLeft="@+id/btnRecordAlarm"
+        android:layout_alignRight="@+id/btnRecordAlarm"
+        android:layout_marginBottom="48dp"
+        android:text="Alarm Test" />
+
+    <Button
+        android:id="@+id/btnRecordAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSleepRecord"
+        android:layout_centerHorizontal="true"
+        android:text="Record Alarm" />
+
+    <TextView
+        android:id="@+id/txtaverageAbsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="22dp"
+        android:text="averageAbsValue"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

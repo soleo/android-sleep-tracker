@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 				int interval = 5;
 				int i = msg.arg1;
 				setLevel(i);
-				//AlarmStaticVariables.level = AlarmStaticVariables.level1;
+				AlarmStaticVariables.level = AlarmStaticVariables.level1;
 				am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
 						+ (interval * 1000), pendingIntent);
 			}
@@ -168,42 +168,6 @@ public class MainActivity extends Activity {
 		selectedDetection = DETECT_NONE;
 	}
 
-	// private void goListeningView() {
-	// setContentView(listeningView);
-	//
-	// if (totalSnoreDetectedNumberText == null) {
-	// totalSnoreDetectedNumberText = (TextView) this
-	// .findViewById(R.id.detectedNumberText);
-	// }
-	//
-	// // thread for detecting environmental noise
-	// if (detectedTextThread == null) {
-	// detectedTextThread = new Thread() {
-	// public void run() {
-	// try {
-	// while (recorderThread != null && detectorThread != null) {
-	// runOnUiThread(new Runnable() {
-	// public void run() {
-	// if (detectorThread != null) {
-	// totalSnoreDetectedNumberText
-	// .setText(String.valueOf(detectorThread
-	// .getTotalSnoreDetected()));
-	// }
-	// }
-	// });
-	// sleep(100);
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// } finally {
-	// detectedTextThread = null;
-	// }
-	// }
-	// };
-	// detectedTextThread.start();
-	// }
-	// }
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, "Quit demo");
@@ -214,6 +178,7 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case 0:
+			am.cancel(pendingIntent);
 			finish();
 			break;
 		default:
@@ -234,5 +199,4 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
-
 }

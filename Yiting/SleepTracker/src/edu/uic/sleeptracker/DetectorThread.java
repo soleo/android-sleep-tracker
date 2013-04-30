@@ -1,5 +1,7 @@
 package edu.uic.sleeptracker;
 
+import com.musicg.wave.WaveHeader;
+
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.os.Handler;
@@ -9,7 +11,8 @@ public class DetectorThread extends Thread {
 
 	private RecorderThread recorder;
 	private volatile Thread _thread;
-
+	private WaveHeader waveHeader;
+	private SnoringApi snoringApi;
 	// ----------------------------------
 	Handler alarmhandler;
 
@@ -36,6 +39,11 @@ public class DetectorThread extends Thread {
 		}
 
 		// TODO: added detection init
+		waveHeader = new WaveHeader();
+		waveHeader.setChannels(channel);
+		waveHeader.setBitsPerSample(bitsPerSample);
+		waveHeader.setSampleRate(audioRecord.getSampleRate());
+		snoringApi = new SnoringApi(waveHeader);
 	}
 
 	public void stopDetection() {
@@ -63,19 +71,25 @@ public class DetectorThread extends Thread {
 			while (_thread == thisThread) {
 				// detect sound
 				buffer = recorder.getFrameBytes();
+//				for(int i = 0; i < 2000; i++ ){
+//					recorder.getFrameBytes();
+//				}
 
 				// audio analyst
 				if (buffer != null) {
 					// sound detected
 					MainActivity.snoreValue = 0;
-
-					boolean isdetected = true;
-					if (isdetected && !AlarmStaticVariables.inProcess) {
-						int level = 1;
-						Message msg = new Message();
-						msg.arg1 = level;
-						alarmhandler.sendMessage(msg);
-						AlarmStaticVariables.inProcess = true;
+					boolean isSnoring = snoringApi.isSnoring(buffer);
+					if(isSnoring){
+						
+						boolean isdetected = true;
+						if (isdetected && !AlarmStaticVariables.inProcess) {
+							int level = 1;
+							Message msg = new Message();
+							msg.arg1 = level;
+							alarmhandler.sendMessage(msg);
+							AlarmStaticVariables.inProcess = true;
+						}
 					}
 
 					// end snore detection

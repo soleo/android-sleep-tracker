@@ -171,6 +171,7 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, "Quit demo");
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 

@@ -1,5 +1,7 @@
 package edu.uic.sleeptracker;
 
+import com.musicg.wave.WaveHeader;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,11 +48,13 @@ public class MainActivity extends Activity {
 	private PendingIntent pendingIntent;
 	private AlarmManager am;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		setTitle("UIC SleepTracker Demo");
+
 
 		mSleepRecordBtn = (Button) this.findViewById(R.id.btnSleepRecord);
 		mAlarmBtn = (Button) findViewById(R.id.btnSelectAlarm);
@@ -171,7 +175,6 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, "Quit demo");
-		
 		return super.onCreateOptionsMenu(menu);
 	}
 

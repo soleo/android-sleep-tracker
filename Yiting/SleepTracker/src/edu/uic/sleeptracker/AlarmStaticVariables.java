@@ -16,4 +16,7 @@ public class AlarmStaticVariables {
 	public static long[] pattern2 = { 1000, 2000, 1000, 2000 };
 	public static long[] pattern3 = { 1000, 2000, 1000, 2000 };
 	public static int recordingTime = 5000;
+	public static int sampleSize = 712548;
+	public static int detectedTimes = 0;
+	// public static int sampleSize = 7125488;
 }

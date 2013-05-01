@@ -14,11 +14,13 @@ public class RecorderThread extends Thread {
 	private int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
 	private int sampleRate = 44100;
 	private int frameByteSize = 2048; // for 1024 fft size (16bit sample size)
+
 	byte[] buffer;
+	byte[] totalBuf;
+	int cnt;
 
-	//showVariableThread showVariable;
+	// showVariableThread showVariable;
 	Handler showhandler;
-
 
 	public RecorderThread(Handler showhandler) {
 		this.showhandler = showhandler;
@@ -28,6 +30,8 @@ public class RecorderThread extends Thread {
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
 				sampleRate, channelConfiguration, audioEncoding, recBufSize);
 		buffer = new byte[frameByteSize];
+		totalBuf = new byte[AlarmStaticVariables.sampleSize * 2];
+		cnt = 0;
 	}
 
 	public AudioRecord getAudioRecord() {
@@ -57,7 +61,10 @@ public class RecorderThread extends Thread {
 	}
 
 	public byte[] getFrameBytes() {
+
 		audioRecord.read(buffer, 0, frameByteSize);
+
+		// System.out.println(cnt);
 
 		// analyze sound
 		int totalAbsValue = 0;
@@ -72,17 +79,27 @@ public class RecorderThread extends Thread {
 		AlarmStaticVariables.absValue = totalAbsValue / frameByteSize / 2;
 
 		// System.out.println(AlarmStaticVariables.absValue);
-		//showVariable.update(AlarmStaticVariables.absValue);
+		// showVariable.update(AlarmStaticVariables.absValue);
 		Message msg = new Message();
 		msg.obj = AlarmStaticVariables.absValue;
 		showhandler.sendMessage(msg);
 
-		// no input
-		if (AlarmStaticVariables.absValue < 30) {
-			return null;
+		for (int i = 0; i < buffer.length; i++) {
+			totalBuf[cnt++] = buffer[i];
 		}
 
-		return buffer;
+		// no input
+		// if (AlarmStaticVariables.absValue < 30) {
+		// return null;
+		// }
+
+		// System.out.println(cnt + " vs " + AlarmStaticVariables.sampleSize);
+		if (cnt > AlarmStaticVariables.sampleSize) {
+			cnt = 0;
+			return totalBuf;
+		} else
+			return null;
+		// return buffer;
 	}
 
 	public void run() {

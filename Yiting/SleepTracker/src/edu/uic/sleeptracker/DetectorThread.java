@@ -71,24 +71,27 @@ public class DetectorThread extends Thread {
 			while (_thread == thisThread) {
 				// detect sound
 				buffer = recorder.getFrameBytes();
-//				for(int i = 0; i < 2000; i++ ){
-//					recorder.getFrameBytes();
-//				}
+				// for(int i = 0; i < 2000; i++ ){
+				// recorder.getFrameBytes();
+				// }
 
 				// audio analyst
 				if (buffer != null) {
+					System.out.println("How many bytes? " + buffer.length);
 					// sound detected
 					MainActivity.snoreValue = 0;
 					boolean isSnoring = snoringApi.isSnoring(buffer);
-					if(isSnoring){
-						
-						boolean isdetected = true;
-						if (isdetected && !AlarmStaticVariables.inProcess) {
-							int level = 1;
-							Message msg = new Message();
-							msg.arg1 = level;
-							alarmhandler.sendMessage(msg);
-							AlarmStaticVariables.inProcess = true;
+					if (isSnoring) {
+						AlarmStaticVariables.detectedTimes++;
+						if (AlarmStaticVariables.detectedTimes == 10) {
+							AlarmStaticVariables.detectedTimes = 0;
+							if (!AlarmStaticVariables.inProcess) {
+								AlarmStaticVariables.inProcess = true;
+								int level = 1;
+								Message msg = new Message();
+								msg.arg1 = level;
+								alarmhandler.sendMessage(msg);
+							}
 						}
 					}
 

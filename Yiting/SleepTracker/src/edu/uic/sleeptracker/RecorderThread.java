@@ -62,24 +62,22 @@ public class RecorderThread extends Thread {
 
 	public byte[] getFrameBytes() {
 
-		audioRecord.read(buffer, 0, frameByteSize);
-
-		// System.out.println(cnt);
+		int bufferReadResult = audioRecord.read(buffer, 0, frameByteSize);
 
 		// analyze sound
 		int totalAbsValue = 0;
 		short sample = 0;
+		short[] tmp = new short[frameByteSize];
 		// float averageAbsValue = 0.0f;
 		AlarmStaticVariables.absValue = 0.0f;
 
 		for (int i = 0; i < frameByteSize; i += 2) {
 			sample = (short) ((buffer[i]) | buffer[i + 1] << 8);
+			tmp[i] = sample;
 			totalAbsValue += Math.abs(sample);
 		}
 		AlarmStaticVariables.absValue = totalAbsValue / frameByteSize / 2;
 
-		// System.out.println(AlarmStaticVariables.absValue);
-		// showVariable.update(AlarmStaticVariables.absValue);
 		Message msg = new Message();
 		msg.obj = AlarmStaticVariables.absValue;
 		showhandler.sendMessage(msg);
@@ -88,10 +86,17 @@ public class RecorderThread extends Thread {
 			totalBuf[cnt++] = buffer[i];
 		}
 
-		// no input
-		// if (AlarmStaticVariables.absValue < 30) {
-		// return null;
-		// }
+		// ----------save into buf----------------------
+		short[] tmpBuf = new short[bufferReadResult
+				/ AlarmStaticVariables.rateX];
+		for (int i = 0, ii = 0; i < tmpBuf.length; i++, ii = i
+				* AlarmStaticVariables.rateX) {
+			tmpBuf[i] = tmp[ii];
+		}
+		synchronized (AlarmStaticVariables.inBuf) {//
+			AlarmStaticVariables.inBuf.add(tmpBuf);// add data
+		}
+		// ----------save into buf----------------------
 
 		// System.out.println(cnt + " vs " + AlarmStaticVariables.sampleSize);
 		if (cnt > AlarmStaticVariables.sampleSize) {

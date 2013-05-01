@@ -1,20 +1,22 @@
 package edu.uic.sleeptracker;
 
-import com.musicg.wave.WaveHeader;
-
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.Menu;
 
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,18 +28,16 @@ public class MainActivity extends Activity {
 	public static final int DETECT_SNORE = 1;
 	public static int selectedDetection = DETECT_NONE;
 
-	// detection parameters
 	private DetectorThread detectorThread;
 	private RecorderThread recorderThread;
-	private Thread detectedTextThread;
+	private DrawThread drawThread;
+
 	public static int snoreValue = 0;
 
-	// views
-	private View mainView, listeningView;
+	private View mainView;
 	private Button mSleepRecordBtn, mAlarmBtn, mRecordBtn, mTestBtn;
-	private TextView totalSnoreDetectedNumberText, txtAbs;
+	private TextView txtAbs;
 
-	// ------------------------
 	private Toast mToast;
 
 	private Handler rhandler = new Handler();
@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
 	private PendingIntent pendingIntent;
 	private AlarmManager am;
 
+	private SurfaceView sfv;
+	private Paint mPaint;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +57,36 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		setTitle("UIC SleepTracker Demo");
 
-
 		mSleepRecordBtn = (Button) this.findViewById(R.id.btnSleepRecord);
 		mAlarmBtn = (Button) findViewById(R.id.btnSelectAlarm);
 		mRecordBtn = (Button) findViewById(R.id.btnRecordAlarm);
 		mTestBtn = (Button) findViewById(R.id.btnAlarmTest);
 		txtAbs = (TextView) findViewById(R.id.txtaverageAbsValue);
+		sfv = (SurfaceView) this.findViewById(R.id.SurfaceView);
 
 		intent = new Intent(MainActivity.this, AlarmReceiverActivity.class);
-		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		pendingIntent = PendingIntent.getActivity(MainActivity.this, 2, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		am = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+		mPaint = new Paint();
+		mPaint.setColor(Color.GREEN);
+
+		/**
+		 * show variable handler
+		 */
 		showhandler = new Handler() {
 			public void handleMessage(Message msg) {
 				txtAbs.setText(msg.obj.toString());
 			}
 		};
 
+		/**
+		 * Output alarm handler
+		 */
 		alarmhandler = new Handler() {
 			public void handleMessage(Message msg) {
-				int interval = 5;
+				int interval = 1;
 				int i = msg.arg1;
 				setLevel(i);
 				AlarmStaticVariables.level = AlarmStaticVariables.level1;
@@ -85,6 +95,9 @@ public class MainActivity extends Activity {
 			}
 		};
 
+		/**
+		 * Sleep Record Button
+		 */
 		mSleepRecordBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				selectedDetection = DETECT_SNORE;
@@ -94,6 +107,11 @@ public class MainActivity extends Activity {
 				detectorThread = new DetectorThread(recorderThread,
 						alarmhandler);
 				detectorThread.start();
+				drawThread = new DrawThread(sfv.getHeight() / 2, sfv, mPaint);
+				drawThread.start();
+				// clsOscilloscope.baseLine = sfv.getHeight() / 2;
+				// clsOscilloscope.Start(audioRecord, recBufSize, sfv, mPaint);
+
 				mToast = Toast.makeText(getApplicationContext(),
 						"Recording & Detecting start", Toast.LENGTH_LONG);
 				mToast.show();
@@ -101,6 +119,9 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		/**
+		 * Select alarm Button
+		 */
 		mAlarmBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				Intent intent = new Intent(MainActivity.this,
@@ -109,6 +130,9 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		/**
+		 * Record name Button
+		 */
 		mRecordBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				rhandler.removeCallbacks(recordActivity);
@@ -116,13 +140,17 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		/**
+		 * Test
+		 */
 		mTestBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				int level = 1;
-				setLevel(level);
-				startOneShoot();
+				// int level = 1;
+				// setLevel(level);
+				// startOneShoot();
 			}
 		});
+
 	}
 
 	private Runnable recordActivity = new Runnable() {

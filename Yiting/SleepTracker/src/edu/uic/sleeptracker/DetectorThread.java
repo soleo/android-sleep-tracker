@@ -71,9 +71,6 @@ public class DetectorThread extends Thread {
 			while (_thread == thisThread) {
 				// detect sound
 				buffer = recorder.getFrameBytes();
-				// for(int i = 0; i < 2000; i++ ){
-				// recorder.getFrameBytes();
-				// }
 
 				// audio analyst
 				if (buffer != null) {
@@ -83,7 +80,7 @@ public class DetectorThread extends Thread {
 					boolean isSnoring = snoringApi.isSnoring(buffer);
 					if (isSnoring) {
 						AlarmStaticVariables.detectedTimes++;
-						if (AlarmStaticVariables.detectedTimes == 10) {
+						if (AlarmStaticVariables.detectedTimes == 3) {
 							AlarmStaticVariables.detectedTimes = 0;
 							if (!AlarmStaticVariables.inProcess) {
 								AlarmStaticVariables.inProcess = true;

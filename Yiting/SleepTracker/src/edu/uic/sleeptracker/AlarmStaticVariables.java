@@ -1,5 +1,7 @@
 package edu.uic.sleeptracker;
 
+import java.util.ArrayList;
+
 public class AlarmStaticVariables {
 	public static int level;
 	public static float absValue;
@@ -19,4 +21,9 @@ public class AlarmStaticVariables {
 	public static int sampleSize = 712548;
 	public static int detectedTimes = 0;
 	// public static int sampleSize = 7125488;
+
+	public static ArrayList<short[]> inBuf = new ArrayList<short[]>();
+	public static int rateX = 8;
+	public static int rateY = 10;
+	// public static boolean draw_isRecording = false;
 }

@@ -1,58 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnSleepRecord"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/MainLayout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="185dp"
-        android:text="Click to start listening to snoring" />
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/btnSelectAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnRecordAlarm"
-        android:layout_alignRight="@+id/btnRecordAlarm"
-        android:layout_below="@+id/btnRecordAlarm"
-        android:text="Select Alarm" />
+        <Button
+            android:id="@+id/btnSleepRecord"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:text="Start" />
 
-    <Button
-        android:id="@+id/btnAlarmTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btnSleepRecord"
-        android:layout_alignLeft="@+id/btnRecordAlarm"
-        android:layout_alignRight="@+id/btnRecordAlarm"
-        android:layout_marginBottom="48dp"
-        android:text="Alarm Test" />
+        <Button
+            android:id="@+id/btnRecordAlarm"
+            android:layout_width="68dip"
+            android:layout_height="wrap_content"
+            android:text="Record" />
 
-    <Button
-        android:id="@+id/btnRecordAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnSleepRecord"
-        android:layout_centerHorizontal="true"
-        android:text="Record Alarm" />
+        <Button
+            android:id="@+id/btnSelectAlarm"
+            android:layout_width="65dip"
+            android:layout_height="wrap_content"
+            android:text="Select" />
 
-    <TextView
-        android:id="@+id/txtaverageAbsValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="22dp"
-        android:text="averageAbsValue"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <Button
+            android:id="@+id/btnAlarmTest"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:text="Test" />
+        
+        <TextView
+            android:id="@+id/txtaverageAbsValue"
+            android:layout_width="65dip"
+            android:layout_height="wrap_content"
+            android:text="00000"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
 
-</RelativeLayout>
+    <SurfaceView
+        android:id="@+id/SurfaceView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </SurfaceView>
+
+</LinearLayout>

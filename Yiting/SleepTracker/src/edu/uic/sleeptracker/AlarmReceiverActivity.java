@@ -43,7 +43,7 @@ public class AlarmReceiverActivity extends Activity {
 		if (AlarmStaticVariables.level == 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			vibrator.vibrate(AlarmStaticVariables.partten, -1);
-			//AlarmStaticVariables.inProcess = false;
+			// AlarmStaticVariables.inProcess = false;
 			AlarmReceiverActivity.this.finish();
 		} else {
 			playSound(this, getAlarmUri());

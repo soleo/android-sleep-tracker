@@ -8,17 +8,12 @@ import java.util.ArrayList;
 import com.musicg.wave.Wave;
 import com.musicg.wave.WaveHeader;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 public class Read {
 	private WaveHeader waveHear;
 	private byte[] data;
-	private short[] amplitudes;
+	private double[] amplitudes;
+	private double[] amplitudes_double = null;
 	private double threshold_E;
 	private double threshold_ZCR;
 	private double[] E = null;
@@ -38,7 +33,8 @@ public class Read {
 		Wave wave = new Wave(filename);
 		this.waveHear = wave.getWaveHeader();
 		this.data = wave.getBytes();
-		this.amplitudes = wave.getSampleAmplitudes();
+		//this.amplitudes = wave.getSampleAmplitudes();
+		this.amplitudes = wave.getNormalizedAmplitudes();
 		
 	}
 	public void setThreshold_E(double value){
@@ -99,10 +95,14 @@ public class Read {
 	}
 	
 	public void setE_ZCRArray(int length_time, int overlap_time){//ms
-		int length = this.waveHear.getSampleRate()/1000*length_time;
-		int overlap = this.waveHear.getSampleRate()/1000*overlap_time;
+		int length = (int) (this.waveHear.getSampleRate()/1000.0*length_time);
+		//System.out.println(length);
+		int overlap = (int) (this.waveHear.getSampleRate()/1000.0*overlap_time);
 		int count_e = 0;
-		int num_E = (this.data.length+(length-overlap)-overlap)/(length-overlap)+1;
+		//int num_E = (this.data.length+(length-overlap)-overlap)/(length-overlap)+1;
+		//int num_E = ((this.amplitudes.length-4)-length+overlap)/overlap;
+		int num_E = (this.amplitudes.length-overlap)/(length-overlap);
+		//System.out.println(num_E);
 		double tmp_energy[] = new double[num_E];
 		double tmp_ZCR[] = new double[num_E];
 		for(int i=4; i<this.amplitudes.length-length; i+=length-overlap){
@@ -170,17 +170,23 @@ public class Read {
 	public float[] getSnoring(){
 		ArrayList<Float> snoring_time = new ArrayList<Float>();//s
 		boolean flag = false;
+		int count = 0;
 		for(int i = 0; i<this.E.length; i++){
 			if (this.E[i]>this.getThreshold_E() && this.ZCR[i]<this.getThreshold_ZCR()){
 				if(flag == false){
 					snoring_time.add((float) (i/20.0));
 					flag = true;
 					//System.out.println(i);
+				}else{
+					count++;
 				}
 			}
 			else{
-				if(flag == true)
+				if(flag == true){
 					flag = false;
+					snoring_time.add((float)(count));
+					count = 0;
+				}
 			}
 		}
 		float[] res = new float[snoring_time.size()];
@@ -202,16 +208,80 @@ public class Read {
 		bw.close();
 	}
 	
-/*	public static void main(String[] args) throws IOException{
+	public void getFFT(int time_length, int time_overlap) throws IOException{
+		int length = (int)(this.waveHear.getSampleRate()/1000.0*time_length);
+		int overlap = (int)(this.waveHear.getSampleRate()/1000.0*time_overlap);
+		int frame_num = (this.amplitudes.length-overlap)/(length-overlap);
+		int i=0;
+		for(i=0; Math.pow(2,i)<length; i++);
+		int sampleSize = (int)Math.pow(2, i);
+		this.amplitudes_double = new double[this.amplitudes.length];
+
+		for(i=0;i<this.amplitudes_double.length;i++)
+			this.amplitudes_double[i] = this.amplitudes[i];
+		FFT fft = new FFT (sampleSize, -1);
+		fft.transform(this.amplitudes_double);
+		
+		double[] amplitudes_sqr = new double[this.amplitudes_double.length/2];
+		for(i=0; i<amplitudes_sqr.length;i++){
+			amplitudes_sqr[i] = Math.pow(this.amplitudes_double[2*i], 2)+Math.pow(this.amplitudes_double[i*2+1],2);
+		}
+		int band_num = 10;
+		int[][] result = new int[frame_num][band_num];
+		for(i=0; i<amplitudes_sqr.length-overlap; i+=length-overlap){
+			for (int j=0; j<length; j++)
+				if(amplitudes_sqr[i+j]%50<band_num)
+					result[i][(int) (amplitudes_sqr[i+j]%50)] += 1;
+		}
+		
+		
+		
+		FileOutputStream fos = new FileOutputStream("/Users/edmond/fft_res.txt");
+		OutputStreamWriter osw = new OutputStreamWriter(fos);
+		BufferedWriter bw = new BufferedWriter(osw);
+	/*	for(i=0;i<this.amplitudes_double.length;i+=2){
+			bw.write(Double.toString(this.amplitudes_double[i])+","+Double.toString(this.amplitudes_double[i+1]));
+			if(i != this.amplitudes_double.length)
+				bw.write("\n");
+		}*/
+		
+		for(i=0; i<frame_num; i++){
+			for(int j=0; j< band_num; j++){
+				bw.write(Double.toString(result[i][j]));
+				if(j!=frame_num-1)
+					bw.write("/n");
+			}
+			bw.write("\n");
+		}
+		
+		/*
+		for(i=0;i<this.amplitudes_double.length;i+=2){
+			double res = Math.pow(this.amplitudes_double[i], 2)+Math.pow(this.amplitudes_double[i+1],2);
+			bw.write(Double.toString(res));
+			if(i!=this.amplitudes_double.length)
+				bw.write("\n");
+		}*/
+		bw.close();
+		return;
+	}
+	
+	public static void main(String[] args) throws IOException{
 		String filename = "/Users/edmond/test03.wav";
 		String out_filename = "/Users/edmond/res.txt";
 
+		
+		int frameSize = 100;//ms
 		Read readWave = new Read(filename);
-		readWave.setE_ZCRArray(100, 50);
+		readWave.setE_ZCRArray(frameSize, 50);
 		readWave.cal_threshold();
 		//float[] res = readWave.getSnoring();
+		//System.out.println(readWave.E.length);
 		readWave.print_to_file(out_filename);
+		//System.out.println(readWave.data.length);
 		//for(int i = 0; i<res.length; i++)
 			//System.out.println(res[i]);
-	}*/
+	//	readWave.getFFT(frameSize, 50);
+		
+		
+	}
 }

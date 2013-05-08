@@ -127,22 +127,22 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
+  %\graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
   % driver is specified.
-  % \usepackage[dvips]{graphicx}
+  \usepackage[dvips]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../eps/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
+   \DeclareGraphicsExtensions{.eps}
 \fi
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
@@ -252,7 +252,7 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
+\usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -325,7 +325,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
-%\usepackage{url}
+\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version can be obtained at:
@@ -352,7 +352,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{An implementation of snoring detection method by using ZCR and energy}
+\title{An Implementation of Snoring Detection in Real-time by Time Analysis}
 
 
 % author names and affiliations
@@ -402,7 +402,7 @@ Email: xshao3@uic.edu, @uic.edu, @uic.edu, @uic.edu}
 
 \begin{abstract}
 %\boldmath
-Snoring is not only health problem for snorers but also great thread for partner’s life. n this project, we suggest a method by analyzing real-time audio data from a smart phone’s microphone which could successfully identify the snoring sound and take actions such as vibration, alarm etc. to notify the snorer to adjust himself/herself. Two features from sound data which are energy and zero-crossing rate applied to detect snoring.  By experimenting with sound data from freesound.org, we’re able to set thresholds for figuring out regular snoring patterns. 
+Snoring is not only health problem for snorers but also great thread for partner’s life. In this project, we suggest a method by analyzing real-time audio data from a smart phone’s microphone which could successfully identify the snoring sound and take actions such as vibration, alarm etc. to notify the snorer to adjust himself/herself. Two features from sound data which are energy and zero-crossing rate applied to detect snoring.  By experimenting with sound data from freesound.org, we’re able to set thresholds for figuring out regular snoring patterns. 
 
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
@@ -431,34 +431,75 @@ Snoring is not only health problem for snorers but also great thread for partner
 
 \section{Introduction}
 % no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
+
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
-I wish you the best of success.
+Normal people spend one third of their life in sleep, and it is estimated that approximately 30\% to 50\% of the US population snore at one time or another, some significantly. Snoring causes a few problems including marital discord, sleep disturbances and waking episodes which is caused by one's own snoring\cite{aaoms:2013}. In some serious condition, apnea which is a potentially life-threatening disease developed from simple snoring. Thus, we're looking for a method to use cell phones to do real-time analysis at night and give proper responses to the snorer in order to alert the person. In this way, we could train the user to stop snoring.  \\
 
-\hfill mds
- 
-\hfill January 11, 2007
+In this paper, an android app is built for this purpose. The app contains three main components which are sound capturing module, analysis module and action module. In sound capturing module, we used raw data from microphone input. After microphone collected large enough data, they were sent analysis module. The analysis module extracted two key features which are energy and zero crossing rate in order to identify the snoring. After snoring sound was confirmed, action module responded with pre-recorded alarm.
 
-\subsection{Subsection Heading Here}
-Subsection text here.
-
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
 \section{Related Work} % (fold)
 \label{sec:related_work}
 
-% section related_work (end)
-\section{Design} % (fold)
-\label{sec:design}
+\subsection{Snoring Detection Methods} % (fold)
+\label{sub:snoring_detection_methods}
 
-% section design (end)
+	Numerous researchers are interested in snoring signal features and detection. Back in 1996, Fiz tried to figure out the difference in snoring sound among simple snoring patients and obstructive sleep apnea patients\cite{fiz1996acoustic}. Their research demonstrated significant difference in sound power spectrum of snoring sound between subjects with simple snoring and obstructive sleep apnoea which means that it should be possible to identify different snoring patterns. In 2006, Duckitt\cite{duckitt2006automatic} suggested using Hidden Markov Models(HMMs) as basic elements to model different type of sound. In \cite{duckitt2006automatic}, the authors made overnight audio recordings for six subjects, and analyze the data afterwards. This approach is not perfect since feedback can not be provided when the subject is snoring. Cheng\cite{cheng2008development} implemented a portable device to detect sleep apnea syndrome. The device is made up of recorder, LCD screen, microphone etc. which all can be found in a normal cell phone. \cite{ccavucsouglu2007efficient} also introduced a method to detect snoring by time and frequency analysis. The method is used in our project, but adjustments need to be made since snoring sound is normally in low frequency area\cite{pevernagie2010acoustics}\cite{calabrese2011system}. Thus, we'd analyze frequency lower than 500 HZ instead of 0-7500 HZ range. 
+	
+% subsection snoring_detection_methods (end)
+
+\subsection{Awakening Methods} % (fold)
+\label{sub:awakening_methods}
+
+What is the proper way to wake a person up? Thomas's research shows that voice alarm was quite effective for younger age groups but not for older adults\cite{thomas2010awakening}.The paper\cite{thomas2010awakening} also mentioned the mother's message including the child's name several times is quite effective when waking the kid's up. It lays the foundation for us to use human voice, especial a snorer's name as alarm. In Bruck's experiment, it shows male's voice is more effective than a female's voice\cite{bruck2008comparison}. For short arousal while sleeping, people will have short term memory lost, so it is hard to people to notice how many times they woke up\cite{bonnet1983memory}. This helps us to let the app alert with certain duration.
+
+
+
+
+% subsection awakening_methods (end)
+% section related_work (end)
+
+
+
+\section{Architecture} % (fold)
+\label{sec:architecture}
+\subsection{System Design} % (fold)
+\label{sub:overview_design}
+Figure here
+% subsection overview_design (end)
+
+\subsection{Sound Analysis} % (fold)
+\label{sub:sound_analysis}
+Add another figure here
+% subsection sound_analysis (end)
+
+% section architecture (end)
 
 \section{Result} % (fold)
 \label{sec:result}
+
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{analysis_regular_snore.jpg}
+\caption{Simple Snoring Results}
+\label{fig_sim}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{analysis_with_breath.jpg}
+\caption{Snoring with Breath Results}
+\label{fig_sim}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{spectrogram.jpg}
+\caption{Snoring with Breath Results}
+\label{fig_sim}
+\end{figure}
 
 % section result (end)
 
@@ -580,20 +621,22 @@ The authors would like to thank...
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,references}
 % argument is your BibTeX string definitions and bibliography database(s)
 %\bibliography{IEEEabrv,../bib/paper}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
+% \begin{thebibliography}{1}
+% 
+% \bibitem{IEEEhowto:kopka}
+% H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+% \bibitem{}
+% http://www.aaoms.org/sleep_apnea.php
+% \end{thebibliography}
 
 
 

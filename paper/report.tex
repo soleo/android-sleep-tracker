@@ -170,7 +170,7 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage[cmex10]{amsmath}
+\usepackage[cmex10]{amsmath}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -362,7 +362,7 @@
 \IEEEauthorblockA{Department of Computer Science\\
 University of Illinois at Chicago\\
 Chicago, Illinois 60612\\
-Email: xshao3@uic.edu, @uic.edu, @uic.edu, @uic.edu}
+Email: xshao3@uic.edu, xhuo4@uic.edu, yjin25@uic.edu, yli229@uic.edu}
 }
 
 % conference papers do not typically use \thanks and this command
@@ -468,17 +468,34 @@ What is the proper way to wake a person up? Thomas's research shows that voice a
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{system.pdf}
-\caption{Overview of the App}
-\label{fig:app_overview}
-\end{figure}
-\begin{figure}[!t]
-\centering
 \includegraphics[width=2.5in]{modules.pdf}
 \caption{Overview of Modules}
 \label{fig:app_modules}
 \end{figure}
-Figure~\ref{fig:app_overview} demonstrates the overview of the project app.   
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{system.pdf}
+\caption{Overview of the App}
+\label{fig:app_overview}
+\end{figure}
+
+Figure~\ref{fig:app_modules} demonstrates the overall structure. In order to do real-time analysis and give correspond alarm actions, the project uses a pipeline structure which contains \emph{Sound Capture}, \emph{Sound Analysis} and \emph{Action Module}. In \emph{Sound Analysis} step, the sound raw data has to be sliced and processed first, then by calculating the energy and zero-crossing rate to classify the sound type which is a binary decision. The pre-recorded alarm in \emph{Action Module} is activated once the system confirms the user is snoring. The decision of alarm is made by the count of detected snoring \(m\). \\
+
+This system is multi-threaded and consists of five main threads. As shown in Figure~\ref{fig:app_overview}, the five threads are Main thread, Recording thread, Display thread, Analysis thread and Alarm thread.\\
+\begin{description}
+  \item[Main thread] \hfill \\
+  Main thread is in charge of main Graph User Interface display and invoking other threads including Recording, Analysis and Display thread. In other word, this is the parent thread of the whole system. Since in Android system, children threads are not able to modify user interface, so we create many handlers in main thread in order to control functions like message display and alarm output.
+  \item[Recording thread] \hfill \\
+  Called by main thread. Recording thread keeps recording the sound while user is sleeping. This is a child thread that running all the time. We use Android system method AudioRecord to implement the recording function.
+  \item[Display thread] \hfill \\
+  Called by Recording thread. Display thread keep drawing and refreshing the oscilloscope stimulation function which recording thread is running.
+  \item[Analysis thread] \hfill \\
+  Called by main thread. Analysis thread calls the sound analysis function to judge if the input sound is snoring or not.
+  \item[Alarm thread] \hfill \\
+  Called by analysis thread. Alarm thread output the alarm sound when snoring being detected.
+\end{description}
+
 % subsection overview_design (end)
 
 \subsection{Sound Analysis} % (fold)
@@ -488,11 +505,17 @@ Add another figure here
 
 % section architecture (end)
 
-\section{Result} % (fold)
-\label{sec:result}
+\section{Results} % (fold)
+\label{sec:results}
+The app supports Android 2.3.3(API Level 10) or later. It is tested in Samsung Galaxy s3.\\
 
+As shown in Figure~\ref{fig:app_screenshot}.The user needs to record his voice as an alarm first. User's name is recommended to record as the alarming message. After tapping on start, the app enters into detection mode. If snoring is detected $ m $ times($ m = 2 $), the alarm will be triggered. If the user continues to snore, he will be alarmed again. The process won't stop detecting until morning once the user chooses to stop the app.\\
 
+In this project, 8 audio samples are collected from freesound.org. Each of them contains a type of male snoring sound. Thanks to freesound.org and people who like to upload personal snoring sound, we're able to get various types of snoring which helps us to develop the app. \\
 
+By using our analysis method, all 8 audio samples with 78 snoring episodes are detected in MatLab. However, playing the samples in laptop output,  the amount of detected snoring sound is significantly less. \\
+
+In noisy environment such as discussion area of the library, restaurants etc., snoring sound almost can not be detected while in relatively quite environment like home, snoring sound could be detected sometimes. \\
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.5in]{analysis_regular_snore.jpg}
@@ -514,8 +537,18 @@ Add another figure here
 \label{fig:spectrogram}
 \end{figure}
 
-% section result (end)
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{demo.png}
+\caption{Screenshot of Android App}
+\label{fig:app_screenshot}
+\end{figure}
 
+% section result (end)
+\section{Discussion} % (fold)
+\label{sec:discussion}
+	In the project several methods were purposed to work. Since most microphone can work. 
+% section discussion (end)
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
@@ -601,10 +634,8 @@ Add another figure here
 
 
 \section{Conclusion}
-The conclusion goes here.
 
-
-
+An Android app used for snoring detection is built. It read raw audio data from a smart phone's microphone, and data is sliced into small segments to calculate zero crossing rate and energy. By using thresholds experimented from MatLab, the app is able to classify snoring sound and give proper alarm responses to the user. The app is tested in both noisy and quite environment in order to figure out the performance. The experiments shows that the app works good in quite environment and triggers alarms. Future work needs to be done to improve the accuracy of snoring detection.
 
 % conference papers do not normally have an appendix
 
@@ -613,11 +644,7 @@ The conclusion goes here.
 \section*{Acknowledgment}
 
 
-The authors would like to thank...
-
-
-
-
+The authors would like to thank Electronic Visualization Laboratory(EVL)  which provided a chance for the team to develop such an interesting app from scratch. Tremendous suggestions were given by Doctor Jason Leign and Doctor Robert Kenyon. The authors also would like to thank the open source community. Without them, the project couldn't be finished in time.
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page

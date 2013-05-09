@@ -252,7 +252,7 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-\usepackage[tight,footnotesize]{subfigure}
+%\usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -265,7 +265,7 @@
 
 
 %\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
+\usepackage[font=footnotesize]{subfig}
 % subfig.sty, also written by Steven Douglas Cochran, is the modern
 % replacement for subfigure.sty. However, subfig.sty requires and
 % automatically loads Axel Sommerfeldt's caption.sty which will override
@@ -500,7 +500,7 @@ This system is multi-threaded and consists of five main threads. As shown in Fig
 
 \subsection{Sound Analysis} % (fold)
 \label{sub:sound_analysis}
-Add another figure here
+
 % subsection sound_analysis (end)
 
 % section architecture (end)
@@ -513,7 +513,10 @@ As shown in Figure~\ref{fig:app_screenshot}.The user needs to record his voice a
 
 In this project, 8 audio samples are collected from freesound.org. Each of them contains a type of male snoring sound. Thanks to freesound.org and people who like to upload personal snoring sound, we're able to get various types of snoring which helps us to develop the app. \\
 
-By using our analysis method, all 8 audio samples with 78 snoring episodes are detected in MatLab. However, playing the samples in laptop output,  the amount of detected snoring sound is significantly less. \\
+By using our analysis method, all 8 audio samples with 78 snoring episodes are detected in MatLab. Figure~\ref{fig:snoring} shows that ZCR and energy have quite clear patterns in simple snoring. In the snoring part, ZCR is relatively high and energy stays between certain limited range which characterize the snoring. In Figure~\ref{fig:snoringbreath}, snoring sound is merged with breath. As we can see, the real snoring sound have wider peak, so the classification result could be based on the continues positive count. If more than $m$ times slice of data is classified as positive snoring, it will be count as the snoring. In frequency domain as shown in Figure~\ref{fig:spectrogram}, the difference between snoring and breath is mainly in low frequency part. After dividing the bands into several sub-bands, we could get 10 features vectors for each frame. The amplitudes distribution in Figure~\ref{fig:spectrogram} shows that we could use the frequency features of sound to improve classification. Using principle components analysis, two main features contributes most of the snoring characteristics. \\
+
+
+In Matlab, the algorithm performs quite good since all the samples's snoring sound is detected. However, playing the samples in laptop output,  the amount of detected snoring sound is significantly less. \\
 
 In noisy environment such as discussion area of the library, restaurants etc., snoring sound almost can not be detected while in relatively quite environment like home, snoring sound could be detected sometimes. \\
 \begin{figure}[!t]
@@ -533,7 +536,7 @@ In noisy environment such as discussion area of the library, restaurants etc., s
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.5in]{spectrogram.jpg}
-\caption{Spectrogram}
+\caption{Spectrogram of Snoring with Breath}
 \label{fig:spectrogram}
 \end{figure}
 
@@ -545,9 +548,9 @@ In noisy environment such as discussion area of the library, restaurants etc., s
 \end{figure}
 
 % section result (end)
-\section{Discussion} % (fold)
-\label{sec:discussion}
-	In the project several methods were purposed to work. Since most microphone can work. 
+% \section{Discussion} % (fold)
+% \label{sec:discussion}
+% 	In the project several methods were purposed to work. Since most microphone can work. 
 % section discussion (end)
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.

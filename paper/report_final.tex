@@ -1,0 +1,629 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[conference]{IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+\usepackage{amsmath}
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  %\graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+   \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Sleeptracker: A Real-time Snoring Detector}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Xinjiang Shao, Xiang Huo, Yanzi Jin and Yiting Li}
+\IEEEauthorblockA{Department of Computer Science\\
+University of Illinois at Chicago\\
+Chicago, Illinois 60607\\
+Email: xshao3@uic.edu, xhuo4@uic.edu, yjin25@uic.edu, yli229@uic.edu}
+}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+Regular snoring could not only affect the quality of sleep but also indicate some health issues, like apnea. In this paper, a method by doing real-time audio analysis on smart phone is proposed. Two features of sound data, energy and zero-crossing rate, are applied to detect snoring. By experiments on multiple sound files, we’re able to extract snoring patterns accurately. After detecting the snoring, the cellphone adjusts the user by alarm or vibration to wake up the user so that the user will stop snoring.
+
+\end{abstract}
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the conference you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals/conferences frown on
+% math in the abstract anyway.
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+% no \IEEEPARstart
+
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+Usually people spend one third of their life in sleep, and it is estimated that approximately 30\% to 50\% of US population snore at one time or another. Snoring causes a few problems including marital discord, sleep disturbances and waking episodes\cite{aaoms:2013}. In some serious condition, apnea is a potentially life-threatening disease developed from simple snoring. Thus, we are looking for a method to do real-time audio analysis at night by cell phones, and give proper responses to the snorer in order to alert the person. In this way, we could help the user to stop snoring.  \\
+
+In this paper, an android app is built for this purpose, which contains three main components: sound capturing module, analysis module and action module. In sound capturing module, we used raw data from microphone input. Every several seconds, sound data collected in the buffer is sent to analysis module. In analysis module energy and zero crossing rate is extracted as two main features to identify the snoring. After several regular snoring, the snoring pattern is confirmed, then action module responds with pre-recorded alarm.
+
+The paper follows the following structure. We will first talk about the related work in Section~\ref{sec:related_work} which has already been done on snoring detection and awakening in the past. In Section~\ref{sec:architecture}, we will discuss the system structure and snoring detection algorithm. Finally in Section~\ref{sec:results} results generated in different sound environment will be given and analyzed.
+\section{Related Work} % (fold)
+\label{sec:related_work}
+
+\subsection{Snoring Detection Methods} % (fold)
+\label{sub:snoring_detection_methods}
+
+	Numerous researchers are interested in snoring signal features extraction and detection. Back in 1996, Fiz tried to figure out the difference in snoring sound among simple snoring patients and obstructive sleep apnea patients\cite{fiz1996acoustic}. Their research demonstrated significant difference in sound power spectrum of snoring sound between subjects with simple snoring and obstructive sleep apnea which indicated the possibility to identify different snoring patterns. In 2006, Duckitt\cite{duckitt2006automatic} suggested using Hidden Markov Models(HMMs) as basic elements to model different type of sound. In \cite{duckitt2006automatic}, the authors made overnight audio recordings for six subjects, and analyzed the data afterwards. This approach was not perfect since feedback could not be provided when the subject is snoring. Cheng\cite{cheng2008development} implemented a portable device to detect sleep apnea syndrome. The device is made up of recorder, LCD screen, microphone etc. which all could be found in a normal cell phone. \cite{ccavucsouglu2007efficient} also introduced a method to detect snoring by time and frequency analysis. The method is used in our project, but adjustments need to be made since snoring sound is normally in low frequency area\cite{pevernagie2010acoustics}\cite{calabrese2011system}. Thus, we analyze frequency lower than 500 HZ instead of $0\sim 7500$ HZ range. 
+	
+% subsection snoring_detection_methods (end)
+
+\subsection{Awakening Methods} % (fold)
+\label{sub:awakening_methods}
+
+What is the proper way to wake a person up? Thomas's research shows that voice alarm was quite effective for younger age groups but not for older adults\cite{thomas2010awakening}.The paper\cite{thomas2010awakening} also mentioned a voice message from a child's mother, which contains the child's name is quite effective when waking the kid up. It lays the foundation for us to use human voice, that is, a snorer's own name as alarm. In Bruck's experiment, it shows male's voice is more effective than a female's voice\cite{bruck2008comparison}. For short arousal during sleep, people may have short term memory lost, so it is hard for people to notice how many times they woke up\cite{bonnet1983memory}. This gives us evidence to alert people without affecting their sleep.
+
+
+% subsection awakening_methods (end)
+% section related_work (end)
+
+
+
+\section{Architecture} % (fold)
+\label{sec:architecture}
+\subsection{System Design} % (fold)
+\label{sub:overview_design}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{system.pdf}
+\caption{Overview of the App}
+\label{fig:app_overview}
+\end{figure}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{modules.pdf}
+\caption{Overview of Modules}
+\label{fig:app_modules}
+\end{figure}
+Figure~\ref{fig:app_modules} demonstrates the overall structure. In order to do real-time analysis and give corresponding alarm actions, the project uses a pipeline structure:  \emph{Sound Capture}, \emph{Sound Analysis} and \emph{Action Module}. In \emph{Sound Analysis} step, the raw sound data has to be divided into slices first, then binary decision (whether is snoring or not) is made based on the energy and zero-crossing rate. Furthermore, the snoring is confirmed by the a period of regular snoring (the number of continuous snoring \(m\)). And the pre-recorded alarm in \emph{Action Module} is activated once the system confirms the user is snoring. \\
+
+This system consists of five main threads. As shown in Figure~\ref{fig:app_overview}, they are main thread, recording thread, display thread, analysis thread and alarm thread.
+
+\subsubsection{Main Thread}
+Main thread is in charge of displaying main Graph User Interface and invoking other threads including recording, analysis and display thread. In other word, this is the parent thread of the whole system. Since in Android system, children threads are not able to modify user interface, we create many handlers in main thread in order to call sub-functions like message display and alarm output.
+
+\subsubsection{Recording Thread}
+Recording thread keeps recording while user is sleeping. This is a child thread that running all the time. We use Android system method AudioRecord to implement the recording function. Called by main thread. 
+
+\subsubsection{Display Thread}
+Display thread keep drawing and refreshing the oscilloscope stimulation function based on the sound input of the app. Called by Recording thread. 
+
+\subsubsection{Analysis Thread}
+Analysis thread calls the sound analysis function to determine whether the input sound is snoring or not.  The output is the snoring interval, if detected. Called by main thread. 
+
+\subsubsection{Alarm Thread}
+Called by analysis thread. Alarm thread output the alarm sound when snoring being detected.
+% subsection overview_design (end)
+
+\subsection{Sound Analysis} % (fold)
+\label{sub:sound_analysis}
+
+To analyze snoring pattern, we need to determine whether a slice of sound data is a part of a snoring.   Here, we introduce two conventional features for determining boundaries of sound activity: Zero Crossing Rate(ZRC) and energy. 
+
+We define the length of slice 100ms, which contains $N$ samples each, and there is 50ms ($N/2$ samples) overlaps between every pair of slices. In the $k$th slice of the signal, its energy is $$E_k=\sum_{i=0}^{N-1}s^2_k[i]$$, where $s_k[i]$ is the $i$th signal in the $k$th slice in $N$ samples. 
+
+The zero-crossing rate is the rate of sign-changes along a signal, i.e., the rate at which the signal changes from positive to negative or back. ZRC for $k$th slice is defined formally as
+
+$$ \text{ZCR}_k = \sum_{i=2}^{N}I(s[i]\cdot[i-1]<0)$$
+
+There are three steps to determine sound activity episodes. First, given certain thresholds, slices with energy and the ZCR values larger than their thresholds are marked as activity slices. Then second step is to determine the starting and ending points of each episodes  found by scanning continuities of activities slices. The last step is merging those episodes which are separated by less than a certain duration. This step can filter some discrete slices marked as active by noise. 
+
+For the energy threshold, $T_E$, its definition is :
+
+$$T_E=\min(I_1, I_2)$$
+
+where 
+$$
+\begin{aligned}
+I_1&=a*[\max(E_k)-\min(E_k)]\min(E_k)\\
+I_2&=b*\min(E_k)
+\end{aligned}$$
+
+The definition of ZCR threshold, $T_z$, is as following:
+
+$$T_z = c*\overline{ZC}$$
+
+where $\overline{ZC}$ is the average ZCR of each snoring episode in the training dataset. The value of parameters $a$, $b$, and $c$ is determined by analyzing all training data on MATLAB to get optimal values to minimize error rate.
+
+
+\section{Results} % (fold)
+\label{sec:results}
+
+The app supports Android 2.3.3 (API Level 10) or later. It is tested in Samsung Galaxy S3.\\
+
+As shown in Figure~\ref{fig:app_screenshot}. User needs to record his voice as an alarm first. User's name is recommended to record as the alarming message. After tapping on start, the app enters into detection mode. If snoring is detected $m$ times($ m = 2 $), the alarm will be triggered. If the user continues to snore, he will be alarmed again. The process won't stop detecting until morning after the user stops the app.\\
+
+By using our analysis method, all 8 audio samples with 78 snoring episodes are detected in MATLAB. Basically, all the sample files are recorded in a silent environment, and they can be roughly classified as regular snoring and snoring with slight noise, like breath. Figure~\ref{fig:snoring} is the algorithm graph of audio with only regular snoring. In the snoring part, ZCR is relatively high and energy stays between certain limited range which characterize the snoring. It shows quite clear pattern of ZCR and energy, and our algorithm works well under such circumstance. However, in Figure~\ref{fig:snoringbreath}, snoring sound is mixed with breath. As shown in the graph, the real snoring sound have wider peak, so the classification result could be based on the continues positive count. If more than $m$ times slice of data is classified as positive snoring, it will be count as the snoring. \\
+
+Since our algorithm works well for silent environment, we would like to try it in noisy environment more irrelevant sound, which can be air-condition, door, wind or animal sound when people are sleeping. However, we don't have good audio files to do such test. We had to play our regular samples in noisy places as our app's input,  the amount of detected snoring sound is significantly less. This is another aspect we need to improve in the future work.\\
+
+After analyzing the spectrograph of the sound file, like Figure~\ref{fig:spectrogram}, we found snoring is mainly in lower frequency part than breath. After dividing the bands into several sub-bands, we could get 10 features vectors for each frame. The amplitudes distribution in Figure~\ref{fig:spectrogram} shows that we could use the frequency features of sound to improve classification. Using principle components analysis, two main features contributes most of the snoring characteristics. \\
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{analysis_regular_snore.jpg}
+\caption{Simple Snoring Results}
+\label{fig:snoring}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{analysis_with_breath.jpg}
+\caption{Snoring with Breath Results}
+\label{fig:snoringbreath}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{spectrogram.jpg}
+\caption{Spectrogram of Snoring with Breath Sample}
+\label{fig:spectrogram}
+\end{figure}
+
+\begin{figure}[!t]
+\includegraphics[width=2.5in]{demo.png}
+\centering
+\caption{Screenshot of app}
+\label{fig:app_screenshot}
+\end{figure}
+
+
+% section result (end)
+
+
+
+\section{Conclusion}
+An Android app used for snoring detection is built. It read raw audio data from a smart phone's microphone, and data is sliced into small segments to calculate zero crossing rate and energy. By using thresholds experimented from MATLAB, the app is able to recognize snoring sound and give proper alarm responses to the user. The app is tested in both noisy and quite environment in order to figure out the performance. The experiments shows that the app works good in quite environment and triggers alarms. Future work needs to be done to improve the accuracy of snoring detection and for various snoring environment.
+
+% conference papers do not normally have an appendix
+
+
+% use section* for acknowledgement
+\section*{Acknowledgment}
+
+The authors would like to thank Electronic Visualization Laboratory(EVL)  which provided a chance for the team to develop such an interesting app from scratch. Critical suggestions were given by Doctor Jason Leign and Doctor Robert Kenyon. The authors also would like to thank the open source community. Without them, the project couldn't be finished in time. \\
+
+At last, thanks to freesound.org and people who like to upload personal snoring sound, we are able to get various types of snoring which helps us to develop the app.
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,references}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+% \begin{thebibliography}{1}
+% 
+% \bibitem{IEEEhowto:kopka}
+% H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+% \bibitem{}
+% http://www.aaoms.org/sleep_apnea.php
+% \end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+

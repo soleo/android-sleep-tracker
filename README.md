@@ -1,4 +1,6 @@
-SleepTracker
-============
+# Sleep Tracker
 
-An app to track your sleep at night. 
+
+An android app for monitoring your sleep via snoring detection at night. 
+
+More details can be found from the ![report](docs/report.pdf).
